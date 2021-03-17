@@ -1,0 +1,102 @@
+<form [formGroup]="formCuentaTable">
+    <table class="table table-hover table-bordered well well-sm">
+      <caption><h1>Cuentas</h1></caption>
+        <thead>
+          <td>id</td>
+          <td>Descripcion</td>
+          <td>Tipo de cuenta</td>
+          <td>Grupo de cuenta</td>
+          <td>Fecha</td>
+          <td>Hora</td>
+          <td>Usuario</td>
+          <td>Editar</td>
+          <td>Guardar</td>
+          <td>Eliminar</td>
+        </thead>
+      <tbody>
+        <tr *ngFor="let item of cuentas, let i=index">
+          <td>
+            <h4>{{item.cuentaId}}</h4>
+          </td>
+
+          <td>
+            <h4>{{item.cuentaDesc}}</h4> 
+          </td>
+
+          <td>
+            <h4>{{item.tipoCuenta}}</h4>
+            <select 
+                class="form-control"
+                name ="grupoCuenta_{{item.grupoCuenta.grupoCuentaId}}" 
+                id   ="grupoCuenta_{{item.grupoCuenta.grupoCuentaId}}" 
+                [formControl]="formCuentaTable.controls['tipoCuenta']"
+                (change) = "inicioSelectGrupoCuenta($event.target.value)"
+            >
+                    <option>--Seleccionar--</option>
+                <option 
+                    *ngFor="let name of optionEnumTipoCuenta" 
+                    [value]="name" > 
+                    {{name}}
+                </option> 
+            </select> 
+          </td>
+
+          <td>
+            <h4>{{item.grupoCuenta.grupoCuentaDesc}}</h4>
+            <select 
+                class="form-control"
+                name ="grupoCuentaDesc_{{item.grupoCuenta.grupoCuentaId}}" 
+                id   ="grupoCuentaDesc_{{item.grupoCuenta.grupoCuentaId}}" 
+                [formControl]="formCuentaTable.controls['grupoCuentaDesc']"
+            >
+                    <option>--Seleccionar--</option>
+                <option 
+                    *ngFor="let name of grupoCuentas" 
+                    [value]="name.grupoCuentaId" > 
+                    {{name.grupoCuentaDesc}}
+                </option> 
+            </select> 
+          </td>
+
+          <td>
+            <h4>{{item.fecha}}</h4> 
+          </td>
+
+          <td>
+            <h4>{{item.hora}}</h4> 
+          </td>
+
+          <td>
+            <h4>{{item.usuario}}</h4> 
+          </td>
+
+
+          <td>
+            <input  type        ="image" 
+                    [disabled]  ="!habilitoLapiz" 
+                    (click)     ="habilitoNombre(item.cuentaId)" 
+                    src         ="/assets/glyph-iconset-master/svg/si-glyph-pencil.svg" 
+                    id          ="pencil_{{item.cuentaId}}"
+            />
+          </td>
+
+          <td>
+            <input  type      ="image" 
+                    disabled  ="true" 
+                    (click)   ="actualizoNombre(item.grupoCuentaId, item.tipoGrupoCuenta)" 
+                    src       ="/assets/glyph-iconset-master/svg/si-glyph-floppy-disk.svg" 
+                    id        ="floppy_{{item.grupoCuentaId}}"
+            />
+          </td>
+
+          <td>
+            <input  type    ="image" 
+                    (click) ="eliminoRegistro(item.grupoCuentaId)" 
+                    src     ="/assets/glyph-iconset-master/svg/si-glyph-delete.svg" 
+                    id      ="delete_{{item.grupoCuentaId}}"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>

@@ -1,0 +1,56 @@
+<form [formGroup]="formTableTipProd">
+    <table class="table table-hover table-bordered well well-sm">
+      <caption><h1>Tipos de Productos</h1></caption>
+        <thead>
+          <td>id</td>
+          <td>Nombre</td>
+          <!--<td>Cuenta</td> -->
+          <td>Editar</td>
+          <td>Guardar</td>
+          <td>Eliminar</td>
+        </thead>
+      <tbody>
+        <tr *ngFor="let item of tiposProductos, let i=index">
+          <td>
+            <h4>{{item.tipProdId}}</h4>
+          </td>
+          <td>
+            <h4>{{item.descTipoProducto}}</h4>
+            <input  type     ="text"
+                    disabled ="true" 
+                    value    ="{{item.descTipoProducto}}"
+                    name     ="descTipoProducto_{{item.tipProdId}}" 
+                    id       ="descTipoProducto_{{item.tipProdId}}" 
+                    [formControl]="formTableTipProd.controls['descTipoProducto']"
+            />
+          </td>
+
+          <td>
+            <input  type        ="image" 
+                    [disabled]  ="!habilitoLapiz" 
+                    (click)     ="habilitoNombre(item.tipProdId)" 
+                    src         ="/assets/glyph-iconset-master/svg/si-glyph-pencil.svg" 
+                    id          ="pencil_{{item.tipProdId}}"
+            />
+          </td>
+
+          <td>
+            <input  type      ="image" 
+                    disabled  ="true"
+                    (click)   ="actualizoNombre(item.tipProdId)" 
+                    src       ="/assets/glyph-iconset-master/svg/si-glyph-floppy-disk.svg" 
+                    id        ="floppy_{{item.tipProdId}}"
+            />
+          </td>
+
+          <td>
+            <input  type    ="image" 
+                    (click) ="eliminoRegistro(item.tipProdId)" 
+                    src     ="/assets/glyph-iconset-master/svg/si-glyph-delete.svg" 
+                    id      ="delete_{{item.tipProdId}}"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>

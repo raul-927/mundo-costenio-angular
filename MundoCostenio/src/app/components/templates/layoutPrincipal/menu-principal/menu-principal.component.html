@@ -1,0 +1,60 @@
+<div class="navbar navbar-default " role="navigation">
+   
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+           	
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+               
+            </ul>
+            <ul class="nav navbar-nav">
+            
+                <li><a href="index.php">Inicio</a></li>
+                 <li> <!--Menu Personas-->
+	                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Personas<b class="caret"></b></a>
+                     <ul class="dropdown-menu multi-level">
+                        <li class="divider"></li>
+                        <li><a href='<s:url value="/grupo_cuentas?insert"/>'>Crear tipo de persona</a></li>
+                        <li><a href='<s:url value="/grupo_cuentas?insert"/>'>Crear persona</a></li>
+                    </ul>
+                </li>
+                <li>
+                
+                <li> <!--Menu Productos-->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Productos<b class="caret"></b></a>
+                    <ul class="dropdown-menu multi-level">
+                        <li class="divider"></li>
+                        <li><a href='<s:url value="/grupo_cuentas?insert"/>'>Crear tipo de producto</a></li>
+                        <li><a href='<s:url value="/grupo_cuentas?insert"/>'>Crear producto</a></li>
+                    </ul>
+                </li>
+                
+                <li><!-- Inicio Menu Configuracion -->
+                 
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Configuracion<b class="caret"></b></a>
+                    <ul class="dropdown-menu multi-level">
+                        <li class="divider"></li>
+              		<li class="dropdown-submenu">
+                    	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Contabilidad</a>
+                        <ul class="dropdown-menu">
+                        	<li><a href='<s:url value="/grupo_cuentas?insert"/>'>Grupos de Cuentas</a></li>
+                        	<li><a href='<s:url value="/cuentas/cuenta?insert"/>'>Cuentas</a></li>
+                        	<li><a href='<s:url value="/formasDePagos?insert"/>'>Formas de Pagos</a></li>
+                        	<li class="divider"></li>
+		                 	<li><a href='<s:url value="/impuestos?insert"/>'>Impuestos</a></li>
+		                 	<li><a href='<s:url value="/asientos?insert"/>'>Asientos</a></li>
+		                </ul>	
+                    </li>   
+                     </ul>
+               </li>
+             
+            </ul>
+        </div><!--/.nav-collapse -->
+  		
+</div>

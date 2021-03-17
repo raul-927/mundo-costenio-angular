@@ -1,0 +1,61 @@
+<form [formGroup]="formTable">
+    <table class="table table-hover table-bordered well well-sm">
+      <caption><h1>Grupo de Cuentas</h1></caption>
+        <thead>
+          <td>id</td>
+          <td>Tipo de Cuenta</td>
+          <td>Nombre</td>
+          <td>Editar</td>
+          <td>Guardar</td>
+          <td>Eliminar</td>
+        </thead>
+      <tbody>
+        <tr *ngFor="let item of grupoCuentas, let i=index">
+          <td>
+            <h4>{{item.grupoCuentaId}}</h4>
+          </td>
+
+          <td>
+            <h4>{{item.tipoGrupoCuenta}}</h4> 
+          </td>
+
+          <td>
+            <h4>{{item.grupoCuentaDesc}}</h4>
+            <input  type     ="text"
+                    disabled ="true" 
+                    value    ="{{item.grupoCuentaDesc}}"
+                    name     ="grupoCuentaDesc_{{item.grupoCuentaId}}" 
+                    id       ="grupoCuentaDesc_{{item.grupoCuentaId}}" 
+                    [formControl]="formTable.controls['grupoCuentaDesc']"
+            />
+          </td>
+
+          <td>
+            <input  type        ="image" 
+                    [disabled]  ="!habilitoLapiz" 
+                    (click)     ="habilitoNombre(item.grupoCuentaId)" 
+                    src         ="/assets/glyph-iconset-master/svg/si-glyph-pencil.svg" 
+                    id          ="pencil_{{item.grupoCuentaId}}"
+            />
+          </td>
+
+          <td>
+            <input  type      ="image" 
+                    disabled  ="true" 
+                    (click)   ="actualizoNombre(item.grupoCuentaId, item.tipoGrupoCuenta)" 
+                    src       ="/assets/glyph-iconset-master/svg/si-glyph-floppy-disk.svg" 
+                    id        ="floppy_{{item.grupoCuentaId}}"
+            />
+          </td>
+
+          <td>
+            <input  type    ="image" 
+                    (click) ="eliminoRegistro(item.grupoCuentaId)" 
+                    src     ="/assets/glyph-iconset-master/svg/si-glyph-delete.svg" 
+                    id      ="delete_{{item.grupoCuentaId}}"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>

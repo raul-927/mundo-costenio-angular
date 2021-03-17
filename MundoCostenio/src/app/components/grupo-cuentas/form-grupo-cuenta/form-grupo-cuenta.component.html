@@ -1,0 +1,42 @@
+<span>FORM: 001</span>
+<h3>Crear Nuevo Grupo de  Cuentas</h3>
+<form class="form"
+   [formGroup] ="groupFormGrupoCuenta"
+   (ngSubmit)  ="insertGrupoCuentas(groupFormGrupoCuenta.value)"> 
+  <fieldset style ="width: 350px;">
+    <div class    ="form-group">
+      <label for ="tipoGrupoCuenta">Tipo de grupo de cuenta:</label>
+      <select 
+          class="form-control"
+          id="tipoGrupoCuenta" 
+          [formControl]="groupFormGrupoCuenta.controls['tipoGrupoCuenta']"
+      >
+		      <option>--Seleccionar--</option>
+          <option 
+            *ngFor="let name of optionsEnumTipoCuenta" 
+            [value]="name"> 
+              {{name}}
+          </option> 
+	  </select> 
+    </div>
+
+    <div class="form-group">
+      <label for="grupoCuentaDesc">Nombre de Grupo de cuentas:</label>
+      <input  id   ="grupoCuentaDesc" 
+              name ="grupoCuentaDesc" 
+              [formControl]="groupFormGrupoCuenta.controls['grupoCuentaDesc']">
+    </div>
+  
+  </fieldset>
+
+  <div class="botonForm">
+    <button type="submit"
+    class="btn btn-primary">
+    Submit link
+  </button>
+
+  </div>
+</form>
+<app-tabla-grupo-cuenta
+  [cambio]= "cambio">
+</app-tabla-grupo-cuenta>

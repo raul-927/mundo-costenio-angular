@@ -1,0 +1,81 @@
+<h3>Crear Nueva Cuenta</h3>
+<form class="form"
+   [formGroup] ="groupFormCuenta"
+   (ngSubmit)  ="insertCuentas(groupFormCuenta.value)"> 
+  <fieldset style ="width: 350px;">
+    <div class    ="form-group">
+      <label for ="tipoCuenta">Tipo de cuenta:</label>
+      <select 
+          class="form-control"
+          id="tipoCuenta" 
+          [formControl]="groupFormCuenta.controls['tipoCuenta']"
+          (change) = "inicioSelectGrupoCuenta($event.target.value)"
+      >
+		      <option>--Seleccionar--</option>
+          <option 
+            *ngFor="let name of optionEnumTipoCuenta" 
+            [value]="name" > 
+              {{name}}
+          </option> 
+	  </select> 
+    </div>
+
+    <div class    ="form-group">
+      <label for ="grupoCuentaId">Grupo de cuenta:</label>
+      <select 
+          class="form-control"
+          id="grupoCuentaId" 
+          [formControl]="groupFormCuenta.controls['grupoCuentaId']"
+      >
+		      <option>--Seleccionar--</option>
+          <option 
+            *ngFor="let name of grupoCuentas" 
+            [value]="name.grupoCuentaId" > 
+              {{name.grupoCuentaDesc}}
+          </option> 
+	  </select> 
+    </div>
+
+    <div class="form-group">
+      <label for="cuentaDesc">Nombre  de cuenta:</label>
+      <input  id   ="cuentaDesc" 
+              name ="cuentaDesc"
+              [formControl]="groupFormCuenta.controls['cuentaDesc']"
+      >
+    </div>
+
+    <div class="form-group">
+      <label for="cuentaFecha">Fecha:</label>
+      <input  id   ="cuentaFecha" 
+              name ="cuentaFecha"
+              [formControl]="groupFormCuenta.controls['cuentaFecha']"
+      >
+    </div>
+    <div class="form-group">
+      <label for="cuentaHora">Hora:</label>
+      <input  id   ="cuentaHora" 
+              name ="cuentaHora"
+              [formControl]="groupFormCuenta.controls['cuentaHora']"
+      >
+    </div>
+    <div class="form-group">
+      <label for="cuentaUsuario">Usuario:</label>
+      <input  id   ="cuentaUsuario" 
+              name ="cuentaUsuario"
+              [formControl]="groupFormCuenta.controls['cuentaUsuario']"
+      >
+    </div>
+  
+  </fieldset>
+
+  <div class="botonForm">
+    <button type="submit"
+    class="btn btn-primary">
+    Guardar
+  </button>
+
+  </div>
+</form>
+<app-tabla-cuenta
+ [cambio]="cambio">
+</app-tabla-cuenta>

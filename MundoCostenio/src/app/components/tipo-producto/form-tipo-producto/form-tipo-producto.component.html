@@ -1,0 +1,42 @@
+<h3>Crear Nuevo Tipo de Producto</h3>
+<form class="form"
+   [formGroup] ="formGroupTipoProducto"
+   (ngSubmit)  ="insertTipoProducto(formGroupTipoProducto.value)"> 
+  <fieldset style ="width: 350px;">
+    <div class    ="form-group">
+      <label for ="cuenta">Cuenta:</label>
+      <select 
+          class="form-control"
+          id="cuenta" 
+          (change) ="inicioSelectCuenta()"
+          [formControl]="formGroupTipoProducto.controls['formControlCuentaId']"
+      >
+		      <option>--Seleccionar--</option>
+          <option 
+            *ngFor="let cuenta of cuentas" 
+            [value]="cuenta.cuentaId" > 
+              {{cuenta.cuentaDesc}}
+          </option> 
+	  </select> 
+    </div>
+
+    <div class="form-group">
+      <label for="descTipoProducto">Nombre de tipo de producto:</label>
+      <input  id   ="descTipoProducto" 
+              name ="descTipoProducto"
+              [formControl] = "formGroupTipoProducto.controls['formControlDescTipoProducto']"
+      >
+    </div>
+  </fieldset>
+
+  <div class="botonForm">
+    <button type="submit"
+    class="btn btn-primary">
+    Guardar
+  </button>
+
+  </div>
+</form>
+<app-tabla-tipo-producto
+[cambio]= "cambio">
+</app-tabla-tipo-producto>
