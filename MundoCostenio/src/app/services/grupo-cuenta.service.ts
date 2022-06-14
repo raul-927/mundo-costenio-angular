@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Host } from '../constant/url/Host';
 import { GrupoCuentaUrl } from '../constant/url/GrupoCuentaUrl';
-import { GrupoCuenta }from '../domain/GrupoCuenta';
+import { GrupoCuenta } from '../domain/GrupoCuenta';
 
 @Injectable({
   providedIn: 'root'
@@ -32,16 +32,16 @@ export class GrupoCuentaService {
   }
 
   public listAll(): Observable<GrupoCuenta[]>{
-    const headers: HttpHeaders = new HttpHeaders();
-    headers.append('Content-Type', 'application/json');
-    headers.append('authorization','YmFzaWMgYmVhc2NhcnZhcmV6');
-    return this.http.get<GrupoCuenta[]>(this.url,{headers});
+    const token = 'Bearer ' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTUyODU5MTIsInVzZXJfbmFtZSI6InR5bGVyIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9DT1VOVEVSIl0sImp0aSI6ImU4MjU0YTZkLThmOGMtNDRhZi1iMmFjLTI1OWVjMjI5ODFhNiIsImNsaWVudF9pZCI6ImNsaWVudCIsInNjb3BlIjpbInJlYWQiXX0.t5Wsz7EYKE93_JD3OSFB8cUbERVJQAMRuZu2au6JOyI';
+    const headers: HttpHeaders = new HttpHeaders({'Content-Type':'application/json','Authorization': token});
+    console.log("HEADER: "+JSON.stringify(headers.get('Authorization')));
+    return this.http.get<GrupoCuenta[]>(this.search, {headers});
   }
 
   public select(grupoCuenta: GrupoCuenta): Observable<GrupoCuenta[]>{
     const headers: HttpHeaders = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
-    return this.http.post<GrupoCuenta[]>(this.search, grupoCuenta, {headers});
+    return this.http.get<GrupoCuenta[]>(this.search, {headers});
   }
  
 }

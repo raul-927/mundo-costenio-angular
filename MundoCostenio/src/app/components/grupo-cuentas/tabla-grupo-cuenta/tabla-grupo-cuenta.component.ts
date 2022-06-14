@@ -42,7 +42,7 @@ export class TablaGrupoCuentaComponent implements OnInit, OnChanges {
 
   public inicializoTabla():void{
     let grupoCuenta  = new GrupoCuenta();
-    this.grupoCuentaService.select(grupoCuenta).subscribe( data => {
+    this.grupoCuentaService.listAll().subscribe( data => {
       this.grupoCuentas = data;
     });
     this.grupoCuenta = null;

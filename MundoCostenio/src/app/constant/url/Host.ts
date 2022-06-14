@@ -1,3 +1,3 @@
 export class Host{
-    public static LOCAL_HOST = 'http://localhost:8080';
+    public static LOCAL_HOST = 'http://localhost:9090';
 }
