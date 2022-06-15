@@ -43,11 +43,15 @@ export class FormCuentaComponent implements OnInit , OnChanges{
    }
 
   ngOnInit(): void {
-    this.inicioSelectTipoCuenta();
+    this.grupoCuentaService.listAll().subscribe(data => {
+        this.grupoCuentas = data;
+      });
    
   }
-  ngOnChanges():void{
-    
+  ngOnChanges(): void{
+    this.grupoCuentaService.listAll().subscribe(data => {
+        this.grupoCuentas = data;
+      });
   }
 
   public inicioSelectTipoCuenta(): void{ //Enumerador
@@ -60,7 +64,7 @@ export class FormCuentaComponent implements OnInit , OnChanges{
     let grupoCuenta = new GrupoCuenta();
     if(tipoCuentaEnum !=='--Seleccionar--'){
       grupoCuenta.tipoGrupoCuenta = tipoCuentaEnum;
-      this.grupoCuentaService.select(grupoCuenta).subscribe(data =>{
+      this.grupoCuentaService.listAll().subscribe(data => {
         this.grupoCuentas = data;
       });
     }

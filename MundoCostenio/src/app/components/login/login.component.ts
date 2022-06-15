@@ -1,10 +1,10 @@
-  
+
 ﻿import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
-import {AuthService} from '../../services/auth.service'
-@Component({
+ import { Router, ActivatedRoute } from '@angular/router';
+ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+ import { first } from 'rxjs/operators';
+ import {AuthService} from '../../services/auth.service';
+ @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
@@ -15,15 +15,15 @@ export class LoginComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   error = '';
-  
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthService
-  ) { 
+  ) {
     // redirect to home if already logged in
-    if (this.authenticationService.currentUserValue) { 
+    if (this.authenticationService.currentUserValue) {
         this.router.navigate(['/']);
     }
 }
@@ -35,12 +35,14 @@ ngOnInit() {
   });
 
   // get return url from route parameters or default to '/'
-  this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+  this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
 }
 
  // convenience getter for easy access to form fields
+ // tslint:disable-next-line: typedef
  get f() { return this.loginForm.controls; }
 
+ // tslint:disable-next-line: typedef
  onSubmit() {
      this.submitted = true;
 
@@ -50,7 +52,7 @@ ngOnInit() {
      }
 
      this.loading = true;
-     this.authenticationService.login(this.f.username.value, this.f.password.value)
+     this.authenticationService.login()
          .pipe(first())
          .subscribe(
              data => {

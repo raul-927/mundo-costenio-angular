@@ -2,6 +2,7 @@ import { Component, HostBinding, Input, OnInit, OnChanges } from '@angular/core'
 import { FormGroup, FormControl, FormBuilder, Validators, Form } from '@angular/forms';
 import { GrupoCuenta } from '../../../domain/GrupoCuenta';
 import {GrupoCuentaService} from '../../../services/grupo-cuenta.service';
+import {AuthService} from '../../../services/auth.service';
 
 @Component({
   selector: 'app-tabla-grupo-cuenta',
@@ -22,7 +23,7 @@ export class TablaGrupoCuentaComponent implements OnInit, OnChanges {
 
    @Input()
    cambio: boolean;
-   constructor(private grupoCuentaService: GrupoCuentaService, fb: FormBuilder) {
+   constructor(private grupoCuentaService: GrupoCuentaService, fb: FormBuilder, private authenticationService: AuthService) {
      this.formTable = fb.group({
       grupoCuentaDesc: new FormControl('', Validators.required)
      });
@@ -47,6 +48,10 @@ export class TablaGrupoCuentaComponent implements OnInit, OnChanges {
     });
     this.grupoCuenta = null;
     this.formTable.controls['grupoCuentaDesc'].setValue("");
+
+    this.authenticationService.login().subscribe(data =>{
+      console.log('DATA: ' + JSON.stringify(data));
+    });
   }
 
   public habilitoNombre(id: any):void {
