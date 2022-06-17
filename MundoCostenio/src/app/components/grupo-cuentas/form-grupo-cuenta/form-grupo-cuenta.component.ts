@@ -79,5 +79,4 @@ export class FormGrupoCuentaComponent implements OnInit, OnChanges {
       });
     });
   }
-
 }
