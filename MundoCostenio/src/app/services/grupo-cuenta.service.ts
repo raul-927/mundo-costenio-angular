@@ -18,7 +18,6 @@ export class GrupoCuentaService {
     authService.login().subscribe(auth => {
       this.token = auth.token_type + ' ' + auth.access_token;
       console.log('TOKEN_EN_CONSTRUCTOR GrupoCuentaService: ' + this.token);
-      
     });
   }
 
