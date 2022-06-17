@@ -1,7 +1,7 @@
-import { ThrowStmt } from '@angular/compiler';
-import { NgForm } from '@angular/forms';
+// simport { ThrowStmt } from '@angular/compiler';
+// import { NgForm } from '@angular/forms';
 import { Component, OnChanges, OnInit } from '@angular/core';
-import {FormsModule, FormBuilder, FormGroup, FormControl} from '@angular/forms';
+import {/*FormsModule,*/ FormBuilder, FormGroup, FormControl} from '@angular/forms';
 import {TipoCuentaEnum} from '../../../numerator/TipoCuentaEnum';
 import {Cuenta} from '../../../domain/Cuenta';
 import {CuentasService} from '../../../services/cuentas.service';
@@ -16,21 +16,20 @@ import {GrupoCuentaService} from '../../../services/grupo-cuenta.service';
 })
 export class FormCuentaComponent implements OnInit , OnChanges{
 
-  optionEnumTipoCuenta:string[];
+  optionEnumTipoCuenta: string[];
   cuenta: Cuenta;
   grupoCuentas: GrupoCuenta[];
-  //grupoCuenta2:  GrupoCuenta;
   cambio: boolean;
 
   groupFormCuenta: FormGroup;
-  tipoCuenta:      FormControl;
-  grupoCuentaId:     FormControl;
-  cuentaDesc:      FormControl;
-  cuentaFecha:     FormControl;
-  cuentaHora:      FormControl;
-  cuentaUsuario:   FormControl;
+  tipoCuenta: FormControl;
+  grupoCuentaId: FormControl;
+  cuentaDesc: FormControl;
+  cuentaFecha: FormControl;
+  cuentaHora: FormControl;
+  cuentaUsuario: FormControl;
 
-  constructor(private formBuilder: FormBuilder, private grupoCuentaService: GrupoCuentaService, private cuentaService:CuentasService) {
+  constructor(formBuilder: FormBuilder, private grupoCuentaService: GrupoCuentaService, private cuentaService: CuentasService) {
     this.groupFormCuenta = formBuilder.group({
       tipoCuenta:    new FormControl('--Seleccionar--'),
       grupoCuentaId:   new FormControl('--Seleccionar--'),
@@ -46,7 +45,6 @@ export class FormCuentaComponent implements OnInit , OnChanges{
     this.grupoCuentaService.listAll().subscribe(data => {
         this.grupoCuentas = data;
       });
-   
   }
   ngOnChanges(): void{
     this.grupoCuentaService.listAll().subscribe(data => {
@@ -54,15 +52,15 @@ export class FormCuentaComponent implements OnInit , OnChanges{
       });
   }
 
-  public inicioSelectTipoCuenta(): void{ //Enumerador
+  public inicioSelectTipoCuenta(): void{
     this.optionEnumTipoCuenta = Object.keys(TipoCuentaEnum);
   }
 
-  public inicioSelectGrupoCuenta(tipoCuentaEnum: any): void{ //Servicio
+  public inicioSelectGrupoCuenta(tipoCuentaEnum: any): void{
     this.grupoCuentas = [];
     this.groupFormCuenta.controls.grupoCuentaId.setValue('--Seleccionar--');
-    let grupoCuenta = new GrupoCuenta();
-    if(tipoCuentaEnum !=='--Seleccionar--'){
+    const grupoCuenta = new GrupoCuenta();
+    if (tipoCuentaEnum !== '--Seleccionar--'){
       grupoCuenta.tipoGrupoCuenta = tipoCuentaEnum;
       this.grupoCuentaService.listAll().subscribe(data => {
         this.grupoCuentas = data;
@@ -71,8 +69,8 @@ export class FormCuentaComponent implements OnInit , OnChanges{
   }
 
   public insertCuentas(param: any): void{
-    let cuenta: Cuenta = new Cuenta();
-    let grupoCuenta: GrupoCuenta = new GrupoCuenta();
+    const cuenta: Cuenta = new Cuenta();
+    const grupoCuenta: GrupoCuenta = new GrupoCuenta();
     grupoCuenta.grupoCuentaId = param.grupoCuentaId;
 
     cuenta.grupoCuenta   = grupoCuenta;
@@ -80,9 +78,9 @@ export class FormCuentaComponent implements OnInit , OnChanges{
     cuenta.tipoCuenta    = param.tipoCuenta;
     cuenta.cuentaFecha   = param.cuentaFecha;
     cuenta.cuentaHora    = param.cuentaHora;
-    cuenta.cuentaUsuario = param.cuentaUsuario; 
-  
-    this.cuentaService.insert(cuenta).subscribe(result =>{
+    cuenta.cuentaUsuario = param.cuentaUsuario;
+
+    this.cuentaService.insert(cuenta).subscribe(result => {
       this.cuenta = result;
       this.cambio = true;
     });

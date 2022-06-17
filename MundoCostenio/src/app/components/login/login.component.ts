@@ -2,7 +2,7 @@
 ﻿import { Component, OnInit } from '@angular/core';
  import { Router, ActivatedRoute } from '@angular/router';
  import { FormBuilder, FormGroup, Validators } from '@angular/forms';
- import { first } from 'rxjs/operators';
+ // import { first } from 'rxjs/operators';
  import {AuthService} from '../../services/auth.service';
  @Component({
   selector: 'app-login',
@@ -28,6 +28,7 @@ export class LoginComponent implements OnInit {
     }
 }
 
+// tslint:disable-next-line: typedef
 ngOnInit() {
   this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
@@ -51,17 +52,17 @@ ngOnInit() {
          return;
      }
 
-     this.loading = true;
-     this.authenticationService.login()
-         .pipe(first())
-         .subscribe(
-             data => {
-                 this.router.navigate([this.returnUrl]);
-             },
-             error => {
-                 this.error = error;
-                 this.loading = false;
-             });
+     // this.loading = true;
+     // this.authenticationService.login()
+     //    .pipe(first())
+     //    .subscribe(
+     //        data => {
+     //            this.router.navigate([this.returnUrl]);
+     //        },
+     //        error => {
+     //            this.error = error;
+     //            this.loading = false;
+     //        });
   }
 
 }

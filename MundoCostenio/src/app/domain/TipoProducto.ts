@@ -1,7 +1,7 @@
-import { Cuenta } from "./Cuenta";
+import { Cuenta } from './Cuenta';
 
 export class TipoProducto {
-     tipProdId:        number;
+     tipProdId: number;
      descTipoProducto: string;
-     cuenta:           Cuenta;
+     cuenta: Cuenta;
 }

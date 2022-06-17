@@ -1,7 +1,8 @@
 import { Component, HostBinding, Input, OnInit, OnChanges } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators, Form } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators, /*Form*/ } from '@angular/forms';
 import { GrupoCuenta } from '../../../domain/GrupoCuenta';
 import {GrupoCuentaService} from '../../../services/grupo-cuenta.service';
+// import {AuthService} from '../../../services/auth.service';
 import {AuthService} from '../../../services/auth.service';
 
 @Component({
@@ -15,11 +16,12 @@ export class TablaGrupoCuentaComponent implements OnInit, OnChanges {
   @HostBinding('attr.class')
   cssClass = 'row';
 
-   grupoCuentas:    GrupoCuenta[];
-   grupoCuenta:     GrupoCuenta;
-   formTable:       FormGroup;
+   grupoCuentas: GrupoCuenta[];
+   grupoCuenta: GrupoCuenta;
+   formTable: FormGroup;
    grupoCuentaDesc: FormControl;
-   habilitoLapiz:   boolean;
+   habilitoLapiz: boolean;
+   private token: string;
 
    @Input()
    cambio: boolean;
@@ -29,6 +31,7 @@ export class TablaGrupoCuentaComponent implements OnInit, OnChanges {
      });
   }
 
+  // tslint:disable-next-line: typedef
   ngOnInit() {
     this.habilitoLapiz = true;
     this.inicializoTabla();
@@ -37,25 +40,27 @@ export class TablaGrupoCuentaComponent implements OnInit, OnChanges {
     });
   }
 
+  // tslint:disable-next-line: typedef
   ngOnChanges() {
     this.inicializoTabla();
   }
 
-  public inicializoTabla():void{
-    let grupoCuenta  = new GrupoCuenta();
-    this.grupoCuentaService.listAll().subscribe( data => {
-      this.grupoCuentas = data;
+  public inicializoTabla(): void{
+    this.authenticationService.login().subscribe(auth => {
+        this.token = auth.token_type + ' ' + auth.access_token;
+        localStorage.setItem('token', this.token);
+        sessionStorage.setItem('token', this.token);
+        console.log('sessionStorage.getItem(token): ' + sessionStorage.getItem('token'));
+        this.grupoCuentaService.listAll(sessionStorage.getItem('token')).subscribe(data => {
+        this.grupoCuentas = data;
+      });
     });
     this.grupoCuenta = null;
-    this.formTable.controls['grupoCuentaDesc'].setValue("");
-
-    this.authenticationService.login().subscribe(data =>{
-      console.log('DATA: ' + JSON.stringify(data));
-    });
+    this.formTable.controls.grupoCuentaDesc.setValue('');
   }
 
-  public habilitoNombre(id: any):void {
-    const numero: number = this.grupoCuentas.length;
+  public habilitoNombre(id: any): void {
+    // const numero: number = this.grupoCuentas.length;
     const aux = 'grupoCuentaDesc_' + id;
     this.grupoCuentas.forEach( data => {
       if (id === data.grupoCuentaId) {
@@ -74,7 +79,7 @@ export class TablaGrupoCuentaComponent implements OnInit, OnChanges {
     });
   }
 
-  public habilitoBotonGrabar(id: any):void {
+  public habilitoBotonGrabar(id: any): void {
     const aux = 'floppy_' + id;
     if (document.getElementById(aux).id === aux) {
       document.getElementById(aux).removeAttribute('disabled');
@@ -84,7 +89,7 @@ export class TablaGrupoCuentaComponent implements OnInit, OnChanges {
 
   }
 
-  public desHabilitoBotonGrabar(id: any):void {
+  public desHabilitoBotonGrabar(id: any): void {
     const aux = 'floppy_' + id;
     if (document.getElementById(aux).id === aux) {
       document.getElementById(aux).removeAttribute('enabled');
@@ -93,7 +98,7 @@ export class TablaGrupoCuentaComponent implements OnInit, OnChanges {
     }
   }
 
-  public actualizoNombre(id: any, tipo: any):void {
+  public actualizoNombre(id: any, tipo: any): void {
     this.grupoCuenta = new GrupoCuenta();
     this.grupoCuenta.grupoCuentaId = id;
     this.grupoCuenta.tipoGrupoCuenta = tipo;
@@ -110,8 +115,9 @@ export class TablaGrupoCuentaComponent implements OnInit, OnChanges {
     }, error => console.error('El error es: ' + JSON.stringify(error)));
   }
 
-  public eliminoRegistro(id: any):void {
+  public eliminoRegistro(id: any): void {
     this.grupoCuentaService.delete(id).subscribe(result => {
+      console.log(result);
       if (!this.habilitoLapiz) {
         this.habilitoLapiz = true;
       }

@@ -1,5 +1,5 @@
-import { Component, HostBinding, Input, OnInit, OnChanges } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators, Form } from '@angular/forms';
+import { Component, /*HostBinding,*/ Input, OnInit, OnChanges } from '@angular/core';
+import { FormGroup, FormControl, FormBuilder, Validators, /*Form */} from '@angular/forms';
 import { GrupoCuenta } from 'src/app/domain/GrupoCuenta';
 import { GrupoCuentaService } from 'src/app/services/grupo-cuenta.service';
 import { Cuenta } from '../../../domain/Cuenta';
@@ -11,15 +11,15 @@ import {TipoCuentaEnum} from '../../../numerator/TipoCuentaEnum';
   styleUrls: ['./tabla-cuenta.component.css']
 })
 export class TablaCuentaComponent implements OnInit, OnChanges {
-  
+
   @Input()
-  cambio:  boolean;
-  cuenta:  Cuenta;
+  cambio: boolean;
+  cuenta: Cuenta;
   cuentas: Cuenta[];
   grupoCuentas: GrupoCuenta[];
-  optionEnumTipoCuenta:string[];
+  optionEnumTipoCuenta: string[];
 
-  habilitoLapiz:   boolean;
+  habilitoLapiz: boolean;
 
   formCuentaTable: FormGroup;
   cuentaId: FormControl;
@@ -29,11 +29,11 @@ export class TablaCuentaComponent implements OnInit, OnChanges {
   cuentaFecha: FormControl;
   cuentaHora: FormControl;
   cuentaUsuario: FormControl;
-  
+
   grupoCuentaDesc: FormControl;
 
-  constructor(private cuentasService: CuentasService, private grupoCuentaService: GrupoCuentaService,fb: FormBuilder) { 
-    this.formCuentaTable =fb.group({
+  constructor(private cuentasService: CuentasService, private grupoCuentaService: GrupoCuentaService, fb: FormBuilder) {
+    this.formCuentaTable = fb.group({
       cuentaId: new FormControl('', Validators.required),
       cuentaDesc: new FormControl('', Validators.required),
       tipoCuenta: new FormControl('', Validators.required),
@@ -41,7 +41,7 @@ export class TablaCuentaComponent implements OnInit, OnChanges {
       cuentaFecha: new FormControl('', Validators.required),
       cuentaHora: new FormControl('', Validators.required),
       cuentaUsuario: new FormControl('', Validators.required),
-      
+
       grupoCuentaDesc: new FormControl('', Validators.required)
     });
   }
@@ -57,49 +57,50 @@ export class TablaCuentaComponent implements OnInit, OnChanges {
       cuentaFecha: new FormControl('', Validators.required),
       cuentaHora: new FormControl('', Validators.required),
       cuentaUsuario: new FormControl('', Validators.required),
-      
+
       grupoCuentaDesc: new FormControl('--Seleccionar--', Validators.required)
     });
   }
 
+  // tslint:disable-next-line: typedef
   ngOnChanges() {
     this.inicioSelectTipoCuenta();
     this.inicializoTabla();
-    
+
   }
 
-  public inicioSelectTipoCuenta(): void{ //Enumerador
+  public inicioSelectTipoCuenta(): void{
     this.optionEnumTipoCuenta = Object.keys(TipoCuentaEnum);
   }
 
-  public inicializoTabla():void{
-    let cuenta  = new Cuenta();
-    let grupoCuenta = new GrupoCuenta();
-  
+  public inicializoTabla(): void{
+    const cuenta  = new Cuenta();
+    const grupoCuenta = new GrupoCuenta();
+
     this.cuentasService.select(cuenta).subscribe( data => {
       this.cuentas = data;
     });
     this.cuenta = null;
 
-    this.grupoCuentaService.select(grupoCuenta).subscribe(data =>{
+    this.grupoCuentaService.select(grupoCuenta).subscribe(data => {
       this.grupoCuentas = data;
     });
-    this.formCuentaTable.controls['cuentaDesc'].setValue("");
+    this.formCuentaTable.controls.cuentaDesc.setValue('');
   }
 
-  public inicioSelectGrupoCuenta(tipoCuentaEnum: any): void{ //Servicio
+  public inicioSelectGrupoCuenta(tipoCuentaEnum: any): void{
     this.grupoCuentas = [];
     this.formCuentaTable.controls.grupoCuentaDesc.setValue('--Seleccionar--');
-    let grupoCuenta = new GrupoCuenta();
-    if(tipoCuentaEnum !=='--Seleccionar--'){
+    const grupoCuenta = new GrupoCuenta();
+    if (tipoCuentaEnum !== '--Seleccionar--'){
       grupoCuenta.tipoGrupoCuenta = tipoCuentaEnum;
-      this.grupoCuentaService.select(grupoCuenta).subscribe(data =>{
+      this.grupoCuentaService.select(grupoCuenta).subscribe(data => {
         this.grupoCuentas = data;
       });
     }
   }
-  public habilitoNombre(id: any):void {
-    const numero: number = this.cuentas.length;
+  public habilitoNombre(id: any): void {
+    // const numero: number = this.cuentas.length;
     const aux = 'cuentaDesc' + id;
     this.cuentas.forEach( data => {
       if (id === data.cuentaId) {
@@ -118,7 +119,7 @@ export class TablaCuentaComponent implements OnInit, OnChanges {
     });
   }
 
-  public habilitoBotonGrabar(id: any):void {
+  public habilitoBotonGrabar(id: any): void {
     const aux = 'floppy_' + id;
     if (document.getElementById(aux).id === aux) {
       document.getElementById(aux).removeAttribute('disabled');
@@ -128,7 +129,7 @@ export class TablaCuentaComponent implements OnInit, OnChanges {
 
   }
 
-  public desHabilitoBotonGrabar(id: any):void {
+  public desHabilitoBotonGrabar(id: any): void {
     const aux = 'floppy_' + id;
     if (document.getElementById(aux).id === aux) {
       document.getElementById(aux).removeAttribute('enabled');

@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, } from '@angular/common/http';
 import {Host} from '../constant/url/Host';
 import {LoginUrl} from '../constant/url/LoginUrl';
 import {User}from '../domain/User';
-import {Cookie} from '';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  private static URL = Host.LOCAL_HOST + LoginUrl.LOGUIN_URL;
+  private static URL = Host.AUTHORIZATION_SERVER_HOST + LoginUrl.LOGUIN_URL;
 
   public clientId = 'newClient';
   public redirectUri = 'http://localhost:8089/';
@@ -25,17 +24,17 @@ export class LoginService {
   }
 
   retrieveToken(code) {
-    let params = new URLSearchParams();   
-    params.append('grant_type','authorization_code');
+    const params = new URLSearchParams();
+    params.append('grant_type', 'authorization_code');
     params.append('client_id', this.clientId);
     params.append('client_secret', 'newClientSecret');
     params.append('redirect_uri', this.redirectUri);
-    params.append('code',code);
+    params.append('code', code);
 
-    let headers = 
+    const headers =
       new HttpHeaders({'Content-type': 'application/x-www-form-urlencoded; charset=utf-8'});
-       
-      this.http.post('http://localhost:8083/auth/realms/baeldung/protocol/openid-connect/token', 
+
+    this.http.post('http://localhost:8083/auth/realms/baeldung/protocol/openid-connect/token',
         params.toString(), { headers: headers })
         .subscribe(
           data => this.saveToken(data),

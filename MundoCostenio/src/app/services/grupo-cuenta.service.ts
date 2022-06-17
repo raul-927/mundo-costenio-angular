@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Host } from '../constant/url/Host';
 import { GrupoCuentaUrl } from '../constant/url/GrupoCuentaUrl';
 import { GrupoCuenta } from '../domain/GrupoCuenta';
+import {AuthService} from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +12,15 @@ import { GrupoCuenta } from '../domain/GrupoCuenta';
 export class GrupoCuentaService {
   private url = Host.LOCAL_HOST + GrupoCuentaUrl.GRUPO_CUENTA_URL;
   private search = Host.LOCAL_HOST + GrupoCuentaUrl.GRUPO_CUENTA_SEARCH;
-  private authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTUyODU5MTIsInVzZXJfbmFtZSI6InR5bGVyIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9DT1VOVEVSIl0sImp0aSI6ImU4MjU0YTZkLThmOGMtNDRhZi1iMmFjLTI1OWVjMjI5ODFhNiIsImNsaWVudF9pZCI6ImNsaWVudCIsInNjb3BlIjpbInJlYWQiXX0.t5Wsz7EYKE93_JD3OSFB8cUbERVJQAMRuZu2au6JOyI';
-  private token = 'Bearer ' + this.authToken;
-  constructor(private http: HttpClient) { }
+  private token: string;
+
+  constructor(private http: HttpClient, private authService: AuthService) {
+    authService.login().subscribe(auth => {
+      this.token = auth.token_type + ' ' + auth.access_token;
+      console.log('TOKEN_EN_CONSTRUCTOR GrupoCuentaService: ' + this.token);
+      
+    });
+  }
 
   public insert(grupoCuenta: any): Observable<GrupoCuenta>{
     const headers: HttpHeaders = new HttpHeaders({'Content-Type': 'application/json', Authorization: this.token});
@@ -27,17 +34,18 @@ export class GrupoCuentaService {
 
   public delete(id: any): Observable<GrupoCuenta> {
     const headers: HttpHeaders = new HttpHeaders({'Content-Type': 'application/json', Authorization: this.token});
-    return this.http.delete<GrupoCuenta>(this.url + '/' + id);
+    return this.http.delete<GrupoCuenta>(this.url + '/' + id, {headers});
   }
 
-  public listAll(): Observable<GrupoCuenta[]>{
-    const headers: HttpHeaders = new HttpHeaders({'Content-Type': 'application/json', Authorization: this.token});
+  public listAll(token: string): Observable<GrupoCuenta[]> {
+    console.log('TOKEN EN LIST_ALL: ' + token);
+    const headers: HttpHeaders = new HttpHeaders({'Content-Type': 'application/json', Authorization: token});
     return this.http.get<GrupoCuenta[]>(this.search, {headers});
   }
 
   public select(grupoCuenta: GrupoCuenta): Observable<GrupoCuenta[]>{
     const headers: HttpHeaders = new HttpHeaders({'Content-Type': 'application/json', Authorization: this.token});
-    return this.http.get<GrupoCuenta[]>(this.search, {headers});
+    return this.http.post<GrupoCuenta[]>(this.search, grupoCuenta, {headers});
   }
 
 }
